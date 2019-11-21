@@ -14,10 +14,10 @@ let appData = {
         costs: howmuch,
         costs1: howmuch1
     },
-    optionalExpenses: {},
+    optionalExpenses: {},D
     income: [],
     savings: false
 };
 
-alert("Буджет на 1 день = " 
+alert("Бюджет на 1 день = " 
 + (appData.moneyData - (appData.expenses.costs + appData.expenses.costs1)) / 30);
