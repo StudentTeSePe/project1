@@ -14,7 +14,7 @@ let appData = {
         costs: howmuch,
         costs1: howmuch1
     },
-    optionalExpenses: {},D
+    optionalExpenses: {},
     income: [],
     savings: false
 };
