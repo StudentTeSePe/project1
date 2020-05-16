@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 
     //Timer
-    let deadline = '2020-05-03 17:50:00';
+    let deadline = '2020-05-13 17:50:00';
 
     function getTimeRemaining(endtime) {
         let t = Date.parse(endtime) - Date.parse(new Date()),
@@ -77,5 +77,36 @@ window.addEventListener('DOMContentLoaded', function(){
     }
 
     setClock('timer', deadline);
+
+    //Modal
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close'),
+        descbtn = document.querySelectorAll('.description-btn');
+        btnsplash = null;
+    
+    let showmodal = function(){
+            overlay.style.display = 'block';
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+            btnsplash = this;
+        };
+
+    more.addEventListener('click', function() {
+        showmodal.call(this);
+    });
+
+    close.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        btnsplash.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    });
+
+    for(let i = 0; i < descbtn.length; i++) {
+        descbtn[i].addEventListener('click', function() {
+            showmodal.call(this);
+        });
+    };
+
 
 })
