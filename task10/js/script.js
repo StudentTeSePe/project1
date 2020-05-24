@@ -38,75 +38,110 @@ window.addEventListener('DOMContentLoaded', function(){
 
 
     //Timer
-    let deadline = '2020-05-13 17:50:00';
+class TimeRemaining {
+    constructor (enddate) {
+        this.deadline = enddate;
+        this.timer = document.getElementById('timer'),
+        this.hours = timer.querySelector('.hours'),
+        this.minutes = timer.querySelector('.minutes'),
+        this.seconds = timer.querySelector('.seconds')
+        
+    }
 
-    function getTimeRemaining(endtime) {
-        let t = Date.parse(endtime) - Date.parse(new Date()),
+    getTimeRemaining() {
+        let t = Date.parse(this.deadline) - Date.parse(new Date()),
             seconds = Math.floor((t/1000) % 60),
             minutes = Math.floor((t/1000/60) % 60),
             hours = Math.floor((t/(1000*60*60)));
-
-        return {
-            'total' : t,
-            'hours' : hours,
-            'minutes' : minutes,
-            'seconds' : seconds
-        };
-    }
-
-    function setClock(id, endtime) {
-        let timer = document.getElementById(id),
-            hours = timer.querySelector('.hours'),
-            minutes = timer.querySelector('.minutes'),
-            seconds = timer.querySelector('.seconds'),
-            timeIntervsl = setInterval(updateClock, 1000);
         
-        function updateClock(){
-            let t = getTimeRemaining(endtime);
-            hours.textContent = t.hours < 10 ? '0' + t.hours : t.hours;
-            minutes.textContent = t.minutes < 10 ? '0' + t.minutes : t.minutes;
-            seconds.textContent = t.seconds < 10 ? '0' + t.seconds : t.seconds;
+        return {
+                'total' : t,
+                'hours' : hours,
+                'minutes' : minutes,
+                'seconds' : seconds
+            };   
+    }
+    
+    setClock() {
+            this.timeIntervsl = setInterval(this.updateClock.bind(this), 1000);
+     }
+    updateClock(){
+            let t = this.getTimeRemaining();
+            this.hours.textContent = t.hours < 10 ? '0' + t.hours : t.hours;
+            this.minutes.textContent = t.minutes < 10 ? '0' + t.minutes : t.minutes;
+            this.seconds.textContent = t.seconds < 10 ? '0' + t.seconds : t.seconds;
 
             if (t.total <= 0) {
-                clearInterval(timeIntervsl);
-                hours.textContent = '00';
-                minutes.textContent = '00';
-                seconds.textContent = '00';
+                clearInterval(this.timeIntervsl);
+                this.hours.textContent = '00';
+                this.minutes.textContent = '00';
+                this.seconds.textContent = '00';
             }
         }
+    //}
+}
+
+let tRemain = new TimeRemaining('2020-05-22 17:50:00');
+tRemain.setClock();
+
+class ModalWindow {
+    constructor() {
+        this.overlay = document.querySelector('.overlay'),
+        this.close = document.querySelector('.popup-close'), 
+        this.btnsplash = null;
+
+        this.close.addEventListener('click', function() {
+            this.overlay.style.display = 'none';
+            this.btnsplash.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    }.bind(this));
     }
 
-    setClock('timer', deadline);
+    show(btn){
+        this.overlay.style.display = 'block';
+        btn.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+        this.btnsplash = btn;
+    }
 
-    //Modal
-    let more = document.querySelector('.more'),
-        overlay = document.querySelector('.overlay'),
-        close = document.querySelector('.popup-close'),
-        descbtn = document.querySelectorAll('.description-btn');
-        btnsplash = null;
     
-    let showmodal = function(){
-            overlay.style.display = 'block';
-            this.classList.add('more-splash');
-            document.body.style.overflow = 'hidden';
-            btnsplash = this;
-        };
+}
+    //Modal
+    let ShowModalWindow = new ModalWindow();
+        more = document.querySelector('.more'),
+        descbtn = document.querySelectorAll('.description-btn');
 
     more.addEventListener('click', function() {
-        showmodal.call(this);
-    });
-
-    close.addEventListener('click', function() {
-        overlay.style.display = 'none';
-        btnsplash.classList.remove('more-splash');
-        document.body.style.overflow = '';
+        ShowModalWindow.show(this);
     });
 
     for(let i = 0; i < descbtn.length; i++) {
         descbtn[i].addEventListener('click', function() {
-            showmodal.call(this);
+            ShowModalWindow.show(this);
         });
     };
 
+
+    class Options {
+        constructor(height, width, bg, fontSize, textAlign){
+            this.height = height;
+            this.width = width;
+            this.bg = bg;
+            this.fontSize = fontSize;
+            this.textAlign = textAlign;
+        }
+
+        CreateDiv(msgtext){
+            let div = document.createElement('div');
+            
+            div.textContent = msgtext;
+            div.style.cssText = `background-color:${this.bg};height:${this.height}px;width:${this.width}px;font-size:${this.fontSize}px;text-align:${this.textAlign}`;
+            document.body.appendChild(div);
+
+        }
+    }
+
+    let objectOptions = new Options(50,500,'red',14,'center');
+    objectOptions.CreateDiv('Hello div element');
 
 })
