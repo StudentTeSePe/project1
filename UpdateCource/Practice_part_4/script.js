@@ -1,15 +1,6 @@
 'use strict'
 let numberOfFilms;
 
-
-let obj = {};
-
-let key = prompt("What's the key?", "__proto__");
-obj[key] = "some value";
-
-alert(obj[key]);
-
-
 const personalMovieDB = {
     count: null,
     movies: {},
